@@ -1,19 +1,14 @@
 #pragma once
 #include <ncurses.h>
+#include "attribute.hpp"
 
-#define WIDTH 60
+#define WIDTH 130
 #define HEIGHT 30
 
-typedef enum {
-    PLAYER, // move by key input
-    ENEMY, // attack player
-    BLOCK, // player cannot go but not attack
-    EMPTY, // player can go
-} Attr;
-
-struct Cell {
-    Attr attr;
-    char value;
-};
-
 void printBoard(Cell** board);
+
+void updateBoard(int x, int y, Cell** board);
+
+void manipulatePlayer(int& x, int& y, char command);
+
+void insertElement(int x, int y, Element* element, Cell** board);

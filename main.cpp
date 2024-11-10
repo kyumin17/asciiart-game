@@ -1,59 +1,53 @@
 #include "game.hpp"
+#include "start.hpp"
+#include "attribute.hpp"
+#include "image.hpp"
 #include <unistd.h>
 
 int main(int argc, char *argv[]) {
+
+	/* initial setting */
 	initscr();
 	noecho();
+	curs_set(0);
 	start_color();
-	init_pair(1, COLOR_CYAN, COLOR_BLACK);
-	attron(COLOR_PAIR(1));
-	/*
-	int max_y, max_x;
-	getmaxyx(stdscr, max_y, max_x);
-	if (max_y < HEIGHT || max_x < WIDTH) {
-		printw("Please size up your window for better play!");
-	}
-	*/
+	init_pair(WHITE, COLOR_WHITE, COLOR_BLACK);
+	init_pair(RED, COLOR_RED, COLOR_BLACK);
+	init_pair(GREEN, COLOR_GREEN, COLOR_BLACK);
+	init_pair(BLUE, COLOR_BLUE, COLOR_BLACK);
+	checkWindowSize();
 
+	/* game */
 	Cell** board = new Cell*[HEIGHT];
-	for (int i = 0; i < HEIGHT; i++) {
-		board[i] = new Cell[WIDTH];
+	for (int row = 0; row < HEIGHT; row++) {
+		board[row] = new Cell[WIDTH];
 	}
 
-	for (int i = 0; i < HEIGHT; i++) {
-		for (int j = 0; j < WIDTH; j++) {
-			board[i][j].value = ' ';
-			board[i][j].attr = EMPTY;
+    Image image("./image/boss/ghost/B1D.png");
+    Element* ghost_default = new Element;
+	//세그폴트 디버깅해야 함ㅜㅜ
+    //ghost_default = image.imageToElement(29, ENEMY, '*');
+	//insertElement(0, 0, ghost_default, board);
+	
+	char command = ' ';
+	int px = 0;
+	int py = HEIGHT - 1;
+
+	if (printStartPage()) {
+		while (command != 'Q') {
+			clear();
+			//이거 나중에 키입력에 따라 while문 돌리는게 아니라 sleep써서 시간에 따라 프레임으로 돌려야함
+			//보스 움직임이 프레임으로 움직여야해서
+			updateBoard(px, py, board);
+			printBoard(board);
+			command = getch();
+			manipulatePlayer(px, py, command);
+			refresh();
 		}
 	}
 
-	for (int col = 0; col < WIDTH; col++) {
-        board[HEIGHT - 1][col].value = '_';
-		board[HEIGHT - 1][col].attr = BLOCK;
-    }
-
-	int x = 0;
-	int y = HEIGHT - 1;
-	board[y][x].value = 'P';
-
-	printBoard(board);
-	char command;
-	while ((command = getch()) != 'q') {
-		if (command == 'a' && x >= 1) {
-			board[y][x].value = '_';
-			board[y][--x].value = 'P';
-		} else if (command == 'd' && x < WIDTH - 1) {
-			board[y][x].value = '_';
-			board[y][++x].value = 'P';
-		} else if (command == ' ' && y >= 1) {
-			board[y][x].value = '_';
-			board[--y][x].value = 'P';
-		}
-		printBoard(board);
-	}
-
-	for (int i = 0; i < HEIGHT; i++) {
-		delete[] board[i];
+    for (int row = 0; row < HEIGHT; row++) {
+		delete[] board[row];
 	}
 	delete[] board;
 
