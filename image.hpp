@@ -2,7 +2,16 @@
 #include <png.h>
 #include <ncurses.h>
 #include <stdlib.h>
-#include "attribute.hpp"
+#include "element.hpp"
+
+struct Pixel {
+	png_byte r, g, b, a;
+};
+
+struct ImageInfo {
+	int width, height;
+	Pixel** image;
+};
 
 class Image {
     public:
@@ -10,5 +19,5 @@ class Image {
         Image(const char* file_name);
         ImageInfo* readImage();
         ImageInfo* compressImage(int width);
-        Element* imageToElement(int width, Attr attr, char c);
+        Element* imageToElement(int width, char c);
 };

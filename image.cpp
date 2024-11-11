@@ -129,7 +129,7 @@ ImageInfo* Image::compressImage(int width) {
 	return compress_image_info;
 }
 
-Element* Image::imageToElement(int width, Attr attr, char c) {
+Element* Image::imageToElement(int width, char c) {
 	ImageInfo* image_info = compressImage(width);
 	Element* element = new Element;
 
@@ -145,11 +145,9 @@ Element* Image::imageToElement(int width, Attr attr, char c) {
 
 			if (opacity == 0 || red + green + blue > 700) {
 				element -> image[row][col].value = ' ';
-				element -> image[row][col].attr = EMPTY;
 				element -> image[row][col].color = WHITE;
 			} else {
 				element -> image[row][col].value = c;
-				element -> image[row][col].attr = attr;
 				if (red > 200 && green > 200 && blue > 200) {
 					element -> image[row][col].color = WHITE;
 				} else if (red > 200) {
