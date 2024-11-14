@@ -117,7 +117,7 @@ Direction getInput() {
     //키 동시 입력 지원
     char command;
     int isPressed[6] = {0, 0, 0, 0, 0, 0}; //10ms동안 입력된 키를 저장
-    for (int i = 0; i < 40; i++) {
+    for (int i = 0; i < 20; i++) {
         command = getch();
         switch(command) {
             case 'a':

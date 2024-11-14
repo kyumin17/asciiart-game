@@ -18,7 +18,7 @@ class PlayerIcon {
         char playerJump[3][4] = {
             " o ",
             "-|-",
-            "- -"
+            "/ \\"
         };
 
         char playerJumpDealing[3][4] = {
@@ -45,10 +45,14 @@ class Player {
         char character[3][4];
         int isDown;
         int isJump;
+        int isRight;
+        int isLeft;
         int downTime;
         int jumpTime;
         int isRightJump;
         int isLeftJump;
+        int leftTime;
+        int rightTime;
         
         Player(int _hp, int _str, int _width, int _height, int _x, int _y);
         void changeCharacter(char _character[3][4]);

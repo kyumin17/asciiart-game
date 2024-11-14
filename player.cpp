@@ -15,6 +15,10 @@ Player::Player(int _hp, int _str, int _width, int _height, int _x, int _y) {
     jumpTime = 0;
     isRightJump = 0;
     isLeftJump = 0;
+    isLeft = 0;
+    isRight = 0;
+    leftTime = 0;
+    rightTime = 0;
 
     PlayerIcon player_icon;
     for (int row = 0; row < 3; row++) {
@@ -33,6 +37,11 @@ void Player::changeCharacter(char _character[3][4]) {
 }
 
 void Player::move(Direction dir) {
+    /*
+    플레이어를 입력 키에 따라 움직임
+    */
+
+    //spaghetti...
     PlayerIcon player_icon;
 
     if (isDown) {
@@ -47,7 +56,8 @@ void Player::move(Direction dir) {
     int dy = 0;
     int jumpVelocity[] = {2, 2, 1, 1, 1, -1, -2, -2, -2};
     if (isJump) {
-        if (jumpTime % 2 == 0) {
+
+        if (jumpTime % 4 == 0) {
 
             if (isRightJump) {
                 if (y < WIDTH - 1) y++;
@@ -55,36 +65,69 @@ void Player::move(Direction dir) {
                 if (y > 1) y--;
             }
 
-            x -= jumpVelocity[jumpTime/2];
+            x -= jumpVelocity[jumpTime/4];
             y += dy;
         }
+
         jumpTime++;
-        if (jumpTime == 9 * 2) {
+        if (jumpTime == 9 * 4) {
             isJump = 0;
             isRightJump = 0;
             isLeftJump = 0;
             jumpTime = 0;
+            changeCharacter(player_icon.PlayerDefault);
+        }
+    }
+
+    if (isLeft) {
+        leftTime++;
+        if (leftTime == 10) {
+            isLeft = 0;
+            leftTime = 0;
+        }
+    }
+
+    if (isRight) {
+        rightTime++;
+        if (rightTime == 10) {
+            isRight = 0;
+            rightTime = 0;
         }
     }
 
     if (dir == JUMP) {
         isJump = 1;
+        if (isRight) {
+            isRightJump = 1;
+        } else if (isLeft) {
+            isLeftJump = 1;
+        }
     } else if (dir == DOWN) {
-        isDown = 1;
         changeCharacter(player_icon.playerDown);
         if (isDown) {
-            downTime = 40;
+            downTime = 45;
         }
+        isDown = 1;
     } else if (dir == LEFT) {
+        if (y > 1 && !isLeftJump) y--;
+        isLeft = 1;
+        isRight = 0;
         if (isJump) {
             isLeftJump = 1;
         }
-        if (y > 1) y--;
+        if (isLeft) {
+            leftTime = 5;
+        }
     } else if (dir == RIGHT) {
+        if (y < WIDTH - 1 && !isRightJump) y++;
+        isRight = 1;
+        isLeft = 0;
         if (isJump) {
             isRightJump = 1;
         }
-        if (y < WIDTH - 1) y++;
+        if (isRight) {
+            rightTime = 5;
+        }
     } 
     if (dir == RIGHTJUMP) {
         isJump = 1;
@@ -93,6 +136,10 @@ void Player::move(Direction dir) {
     if (dir == LEFTJUMP) {
         isLeftJump = 1;
         isJump = 1;
+    }
+
+    if (isJump) {
+        changeCharacter(player_icon.playerJump);
     }
 
 }
