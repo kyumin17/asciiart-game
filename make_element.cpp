@@ -1,51 +1,49 @@
 #include <iostream>
-#include "image.hpp"
+#include "make_element.hpp"
 
 #define COLOR_DEPTH 8
 
 using namespace std;
 
-Image::Image(const char* file_name) {
-	fn = file_name;
-}
-
-ImageInfo* Image::readImage() {
+bool readImage(const char* fn, ImageInfo* image_info) {
 	/*
-	if there is a problem reading the image, return false and return true otherwise
-	get information of width, height, and rgb value of each pixel
+	이미지의 정보를 받아옴
 	*/
 
-	ImageInfo* image_info = new ImageInfo;
-
-	/* initialize and error handling */
+	/* 초기화 및 에러처리 */
 	FILE *fp = fopen(fn, "rb");
 	png_structp png_ptr;
 	png_infop info_ptr;
 	if (!fp) {
 		cout << "ERROR: could not read image " << fn << endl;
+		return false;
 	}
 
 	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (!png_ptr) {
 		cout << "ERROR: could not initialize png struct" << endl;
+		return false;
 	}
 
 	info_ptr = png_create_info_struct(png_ptr);
 	if (!info_ptr) {
+		cout << "ERROR: could not init png information" << endl;
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 		fclose(fp);
+		return false;
 	}
 
 	if (setjmp(png_jmpbuf(png_ptr))) {
 		cout << "ERROR: could not init png" << endl;
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 		fclose(fp);
+		return false;
 	}
 
 	png_init_io(png_ptr, fp);
 	png_read_info(png_ptr, info_ptr);
 
-	/* get information of image */
+	/* 이미지 정보 받아옴 */
 	int width = png_get_image_width(png_ptr, info_ptr);
 	int height = png_get_image_height(png_ptr, info_ptr);
 	int color_type = png_get_color_type(png_ptr, info_ptr);
@@ -65,7 +63,7 @@ ImageInfo* Image::readImage() {
 
 	png_read_image(png_ptr, row_pointers);
 
-	/* write info in image_info */
+	/* image_info에 정보 입력 */
 	image_info -> image = new Pixel*[height];
 	for (int row = 0; row < height; row++) {
 		image_info -> image[row] = new Pixel[width];
@@ -83,7 +81,7 @@ ImageInfo* Image::readImage() {
 	image_info -> width = width;
 	image_info -> height = height;
 
-	/* free memory */
+	/* 메모리 해제 */
 	for (int row = 0; row < height; row++) {
 		delete[] row_pointers[row];
 	}
@@ -92,76 +90,60 @@ ImageInfo* Image::readImage() {
 	png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 	fclose(fp);
 
-	return image_info;
+	return true;
 }
 
-ImageInfo* Image::compressImage(int width) {
-	/*
-	reduce image size and write info to compress_image_info
-	*/
+void makeElement(char id[MAXLEN], const char* fn, int width, int x, int y, char shape) {
+	/* 이미지 읽어들임 */
 	ImageInfo* image_info = new ImageInfo;
-	image_info = readImage();
-	ImageInfo* compress_image_info = new ImageInfo;
+	readImage(fn, image_info);
 
-	int prev_height = image_info -> height;
-	int prev_width = image_info -> width;
-	float scale = (float)prev_width / width;
+	/* 이미지 압축 */
+	float scale = (float)width / (image_info -> width);
 
-	/* write compression width and height */
-	int height = prev_height / scale;
-	compress_image_info -> height = height;
-	compress_image_info -> width = width;
+	int element_height = (float)(image_info -> height) * scale;
+	int element_width = width;
 
-	/* get compression image */
-	compress_image_info -> image = new Pixel*[height];
-	for (int row = 0; row < height; row++) {
-		compress_image_info -> image[row] = new Pixel[width];
+	Cell** image = new Cell*[element_height];
+	for (int row = 0; row < element_height; row++) {
+		image[row] = new Cell[element_width];
 	}
 
-	for (int row = 0; row < height; row++) {
-		for (int col = 0; col < width; col++) {
-			compress_image_info -> image[row][col] = image_info -> image[(int)((float)row * scale)][(int)((float)col * scale)];
-		}
-	}
+	//여기서 가다가 세그폴트 뜸 아니 진짜 왜?? 아예 안돌아가는것도 아니고열몇번 돌다가 뜸;;
+	for (int row = 0; row < element_height; row++) {
+		for (int col = 0; col < element_width; col++) {
+			cout << row << " " << col << endl;
+			int nr = (float)row / scale;
+			int nc = (float)col / scale;
 
-	delete image_info;
-
-	return compress_image_info;
-}
-
-Element* Image::imageToElement(int width, char c) {
-	ImageInfo* image_info = compressImage(width);
-	Element* element = new Element;
-
-	element -> width = image_info -> width;
-	element -> height = image_info -> height;
-
-	for (int row = 0; row < element -> height; row++) {
-		for (int col = 0; col < element -> width; col++) {
 			int red = image_info -> image[row][col].r;
 			int green = image_info -> image[row][col].g;
 			int blue = image_info -> image[row][col].b;
 			int opacity = image_info -> image[row][col].a;
-
+			
 			if (opacity == 0 || red + green + blue > 700) {
-				element -> image[row][col].value = ' ';
-				element -> image[row][col].color = WHITE;
+				image[nr][nc].value = ' ';
+				image[nr][nc].color = WHITE;
 			} else {
-				element -> image[row][col].value = c;
+				image[nr][nc].value = shape;
 				if (red > 200 && green > 200 && blue > 200) {
-					element -> image[row][col].color = WHITE;
+					image[nr][nc].color = WHITE;
 				} else if (red > 200) {
-					element -> image[row][col].value = RED;
+					image[nr][nc].color = RED;
 				} else if (green > 200) {
-					element -> image[row][col].value = GREEN;
+					image[nr][nc].color = GREEN;
 				} else if (blue > 200) {
-					element -> image[row][col].value = BLUE;
+					image[nr][nc].color = BLUE;
+				} else {
+					image[nr][nc].color = WHITE;
 				}
 			}
 		}
 	}
 
+	//Element element(id, element_width, element_height, x, y, image);
+
 	delete image_info;
-	
-	return element;
+
+	//return element;
 }

@@ -10,6 +10,9 @@
         "type_traits": "cpp",
         "utility": "cpp",
         "*.tcc": "cpp",
-        "limits": "cpp"
+        "limits": "cpp",
+        "new": "cpp",
+        "random": "cpp",
+        "string": "cpp"
     }
 }

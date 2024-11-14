@@ -1,13 +1,16 @@
 #pragma once
+#include "player.hpp"
 #include <ncurses.h>
 #define WIDTH 130
 #define HEIGHT 30
 
-typedef enum { WHITE, RED, GREEN, BLUE } Color;
+typedef enum { L, R, J, D, A, Q } KeyInput;
 
 int printStartPage();
 
 int printStagePage();
+
+Direction getInput();
 
 void printStage1Page();
 

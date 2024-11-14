@@ -9,6 +9,7 @@ int main(int argc, char *argv[]) {
 	nodelay(stdscr, TRUE);
 	curs_set(0);
 	start_color();
+	cbreak();
 	init_pair(WHITE, COLOR_WHITE, COLOR_BLACK);
 	init_pair(RED, COLOR_RED, COLOR_BLACK);
 	init_pair(GREEN, COLOR_GREEN, COLOR_BLACK);
