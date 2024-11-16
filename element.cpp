@@ -1,5 +1,5 @@
 #include "element.hpp"
-
+//HIIIIIIIIII
 Element::Element(char _id[], int _width, int _height, int _x, int _y, Cell** _image) {
     width = _width;
     height = _height;
