@@ -1,5 +1,5 @@
 #include <iostream>
-#include "make_element.hpp"
+#include "convert-img.hpp"
 
 #define COLOR_DEPTH 8
 
@@ -93,57 +93,6 @@ bool readImage(const char* fn, ImageInfo* image_info) {
 	return true;
 }
 
-void makeElement(char id[MAXLEN], const char* fn, int width, int x, int y, char shape) {
-	/* 이미지 읽어들임 */
-	ImageInfo* image_info = new ImageInfo;
-	readImage(fn, image_info);
+void makeElement() {
 
-	/* 이미지 압축 */
-	float scale = (float)width / (image_info -> width);
-
-	int element_height = (float)(image_info -> height) * scale;
-	int element_width = width;
-
-	Cell** image = new Cell*[element_height];
-	for (int row = 0; row < element_height; row++) {
-		image[row] = new Cell[element_width];
-	}
-
-	//여기서 가다가 세그폴트 뜸 아니 진짜 왜?? 아예 안돌아가는것도 아니고열몇번 돌다가 뜸;;
-	for (int row = 0; row < element_height; row++) {
-		for (int col = 0; col < element_width; col++) {
-			cout << row << " " << col << endl;
-			int nr = (float)row / scale;
-			int nc = (float)col / scale;
-
-			int red = image_info -> image[row][col].r;
-			int green = image_info -> image[row][col].g;
-			int blue = image_info -> image[row][col].b;
-			int opacity = image_info -> image[row][col].a;
-			
-			if (opacity == 0 || red + green + blue > 700) {
-				image[nr][nc].value = ' ';
-				image[nr][nc].color = WHITE;
-			} else {
-				image[nr][nc].value = shape;
-				if (red > 200 && green > 200 && blue > 200) {
-					image[nr][nc].color = WHITE;
-				} else if (red > 200) {
-					image[nr][nc].color = RED;
-				} else if (green > 200) {
-					image[nr][nc].color = GREEN;
-				} else if (blue > 200) {
-					image[nr][nc].color = BLUE;
-				} else {
-					image[nr][nc].color = WHITE;
-				}
-			}
-		}
-	}
-
-	//Element element(id, element_width, element_height, x, y, image);
-
-	delete image_info;
-
-	//return element;
 }

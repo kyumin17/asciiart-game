@@ -2,7 +2,6 @@
 #include <png.h>
 #include <ncurses.h>
 #include <stdlib.h>
-#include "element.hpp"
 #define HEIGHT 30
 #define WIDTH 130
 
@@ -17,4 +16,4 @@ struct ImageInfo {
 
 bool readImage(const char* fn, ImageInfo* image_info);
 
-void makeElement(char id[MAXLEN], const char* fn, int width, int x, int y, char shape);
+void makeElement();

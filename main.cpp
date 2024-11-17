@@ -1,28 +1,26 @@
-#include "page.hpp"
+#include <ncurses.h>
+#include "./page/page.hpp"
 
 int main(int argc, char *argv[]) {
-	typedef enum { WHITE, RED, GREEN, BLUE } Color;
 
 	/* initial setting */
 	initscr();
 	noecho();
 	nodelay(stdscr, TRUE);
+	keypad(stdscr, TRUE);
 	curs_set(0);
-	start_color();
 	cbreak();
-	init_pair(WHITE, COLOR_WHITE, COLOR_BLACK);
-	init_pair(RED, COLOR_RED, COLOR_BLACK);
-	init_pair(GREEN, COLOR_GREEN, COLOR_BLACK);
-	init_pair(BLUE, COLOR_BLUE, COLOR_BLACK);
+	start_color();
 
 	/* game */
 	int stage = 0;
 	if (printStartPage()) {
 		clear();
-		stage = printStagePage();
+		stage = printStageSelectPage();
 	}
 
 	clear();
+
 	switch(stage) {
 		case 1:
 			printStage1Page();
@@ -38,4 +36,5 @@ int main(int argc, char *argv[]) {
 	endwin();
 	
 	return 0;
+	
 }
