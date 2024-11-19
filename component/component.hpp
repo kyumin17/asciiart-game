@@ -1,17 +1,6 @@
 #pragma once
 #include "display.hpp"
 
-typedef struct {
-    int r;
-    int g;
-    int b;
-} Color;
-
-typedef struct {
-    char value;
-    Color color;
-} Cell;
-
 class Component {
     public:
         int x;
@@ -22,5 +11,5 @@ class Component {
         
         Component(int _x, int _y, int _width, int _height, Cell** _image);
         void changeImage(Cell** new_image);
-        void draw(Display* Display);
+        void draw(Display* display);
 };

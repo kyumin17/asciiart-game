@@ -36,6 +36,8 @@ bool Projectile::isTouch(Player* player) {
     /*
     닿았는지 판단
     */
+
+    return false;
 }
 
 void Projectile::attack(Player* player) {
@@ -48,4 +50,6 @@ bool Projectile::isOutOfDisplay() {
     /*
     화면 벗어나면 true반환, 아니면 false
     */
+
+    return false;
 }

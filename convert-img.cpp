@@ -5,17 +5,21 @@
 
 using namespace std;
 
-bool readImage(const char* fn, ImageInfo* image_info) {
+Image::Image(const char* _filename) {
+	filename = _filename;
+}
+
+bool Image::readImage() {
 	/*
 	이미지의 정보를 받아옴
 	*/
 
 	/* 초기화 및 에러처리 */
-	FILE *fp = fopen(fn, "rb");
+	FILE *fp = fopen(filename, "rb");
 	png_structp png_ptr;
 	png_infop info_ptr;
 	if (!fp) {
-		cout << "ERROR: could not read image " << fn << endl;
+		cout << "ERROR: could not read image " << filename << endl;
 		return false;
 	}
 
@@ -44,8 +48,8 @@ bool readImage(const char* fn, ImageInfo* image_info) {
 	png_read_info(png_ptr, info_ptr);
 
 	/* 이미지 정보 받아옴 */
-	int width = png_get_image_width(png_ptr, info_ptr);
-	int height = png_get_image_height(png_ptr, info_ptr);
+	width = png_get_image_width(png_ptr, info_ptr);
+	height = png_get_image_height(png_ptr, info_ptr);
 	int color_type = png_get_color_type(png_ptr, info_ptr);
 
 	if (color_type == PNG_COLOR_TYPE_RGB) {
@@ -64,22 +68,19 @@ bool readImage(const char* fn, ImageInfo* image_info) {
 	png_read_image(png_ptr, row_pointers);
 
 	/* image_info에 정보 입력 */
-	image_info -> image = new Pixel*[height];
+	image = new Pixel*[height];
 	for (int row = 0; row < height; row++) {
-		image_info -> image[row] = new Pixel[width];
+		image[row] = new Pixel[width];
 	}
 
 	for (int row = 0; row < height; row++) {
 		for (int col = 0; col < width; col++) {
-			image_info -> image[row][col].r = (int)row_pointers[row][col * 4];
-			image_info -> image[row][col].g = (int)row_pointers[row][col * 4 + 1];
-			image_info -> image[row][col].b = (int)row_pointers[row][col * 4 + 2];
-			image_info -> image[row][col].a = (int)row_pointers[row][col * 4 + 3];
+			image[row][col].r = (int)row_pointers[row][col * 4];
+			image[row][col].g = (int)row_pointers[row][col * 4 + 1];
+			image[row][col].b = (int)row_pointers[row][col * 4 + 2];
+			image[row][col].a = (int)row_pointers[row][col * 4 + 3];
 		}
 	}
-
-	image_info -> width = width;
-	image_info -> height = height;
 
 	/* 메모리 해제 */
 	for (int row = 0; row < height; row++) {
@@ -93,6 +94,24 @@ bool readImage(const char* fn, ImageInfo* image_info) {
 	return true;
 }
 
-void makeElement() {
+void Image::getComponentImage(Component* component, int newHeight, char value) {
+	/*
+	newHeight를 높이로 가지는 컴포넌트에 image를 넣음
+	*/
 
+	readImage(); //read image
+	float scale = (float)newHeight / height;
+	component -> height = newHeight;
+	component -> width = width * scale;
+
+	component -> image = new Cell*[component -> height];
+	for (int row = 0; row < component -> height; row++) {
+		component -> image[row] = new Cell[component -> width];
+	}
+
+	for (int row = 0; row < component -> height; row++) {
+		for (int col = 0; col < component -> width; col++) {
+			component -> image[row][col].value = value;
+		}
+	}
 }

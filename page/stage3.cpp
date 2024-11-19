@@ -1,11 +1,18 @@
 #include "page.hpp"
-#include "../component/display.hpp"
 
 void printStage3Page() {
-    Display Display(130, 30);
-    while (1) {
-        usleep(10 * ms);
-        Display.printDisplay();
+    Display display(130, 30);
+    PlayerImage playerImage;
+    Player player(10, 26, 3, 3, 3, playerImage.stand);
+    Input input;
+    input.isQuit = false;
+    
+    while (!input.isQuit) {
+        display.initDisplay();
+        input = display.getInput();
+        player.move(input, playerImage);
+        player.draw(&display);
+        display.printDisplay();
         refresh();
     }
 }

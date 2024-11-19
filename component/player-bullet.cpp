@@ -16,6 +16,8 @@ bool Bullet::isEnemyTouch(Enemy* enemy) {
     적이랑 만났어? true 반환
     적이랑 안만났어? false 반환
     */
+
+    return false;
 }
 
 void Bullet::enemyAttack(Enemy* enemy) {
@@ -29,6 +31,8 @@ bool Bullet::isProjectileTouch() {
     투사체랑 만났어? true 반환
     투사체랑 안만났어? false 반환
     */
+
+    return false;
 }
 
 void Bullet::projectileAttack() {
@@ -42,4 +46,6 @@ bool Bullet::isOutOfDisplay(Enemy* enemy) {
     x, y값을 받아서 화면에서 나가면 true 반환
     아니면 false 반환
     */
+
+    return false;
 }

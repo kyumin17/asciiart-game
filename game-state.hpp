@@ -2,12 +2,12 @@
 
 class GameState {
     public:
-        bool stage1Clear;
-        bool stage2Clear;
-        bool stage3Clear;
+        bool stage1Access;
+        bool stage2Access;
+        bool stage3Access;
         GameState() {
-            stage1Clear = false;
-            stage2Clear = false;
-            stage3Clear = false;
+            stage1Access = true;
+            stage2Access = false;
+            stage3Access = false;
         }
 };

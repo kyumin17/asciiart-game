@@ -26,10 +26,11 @@ void Component::changeImage(Cell** new_image) {
     }
 }
 
-void Component::draw(Display* Display) {
+void Component::draw(Display* display) {
     for (int row = 0; row < height; row++) {
         for (int col = 0; col < width; col++) {
-            Display -> display[row + x][col + y] = image[row][col];
+            display -> screen[row + x][col + y].value = image[row][col].value;
+            display -> screen[row + x][col + y].color = image[row][col].color;
         }
     }
 }

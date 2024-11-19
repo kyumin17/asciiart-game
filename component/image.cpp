@@ -1,29 +1,6 @@
 #include "image.hpp"
 
-Image::Image(int _width, int _height) {
-    width = _width;
-    height = _height;
-};
-
-void Image::allocateCell(Cell** cell) {
-    cell = new Cell*[height];
-    for (int row = 0; row < height; row++) {
-        cell[row] = new Cell[width];
-    }
-}
-
-void PlayerImage::putValue(Cell** cell, char image[3][4], int color[3]) {
-    for (int row = 0; row < height; row++) {
-        for (int col = 0; col < width; col++) {
-            cell[row][col].value = image[row][col];
-            cell[row][col].color = {color[0], color[1], color[2]};
-        }
-    }
-}
-
-PlayerImage::PlayerImage(): Image(4, 3) {
-    int white[] = {255, 255, 255};
-
+PlayerImage::PlayerImage() {
     char standImage[3][4] = {
         " o ",
         "/|\\",
@@ -48,13 +25,45 @@ PlayerImage::PlayerImage(): Image(4, 3) {
         "/ \\"
     };
 
-    allocateCell(stand);
-    allocateCell(down);
-    allocateCell(jump);
-    allocateCell(attack);
+    stand = new Cell*[3];
+    down = new Cell*[3];
+    jump = new Cell*[3];
+    attack = new Cell*[3];
 
-    putValue(stand, standImage, white);
-    putValue(down, downImage, white);
-    putValue(jump, jumpImage, white);
-    putValue(attack, attackImage, white);
+    for (int i = 0; i < 3; i++) {
+        stand[i] = new Cell[3];
+        down[i] = new Cell[3];
+        jump[i] = new Cell[3];
+        attack[i] = new Cell[3];
+    }
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            stand[i][j].value = standImage[i][j];
+            down[i][j].value = downImage[i][j];
+            jump[i][j].value = jumpImage[i][j];
+            attack[i][j].value = attackImage[i][j];
+        }
+    }
+}
+
+EnemyImage::EnemyImage() {
+    char standImage[4][9] = {
+        " ______ ",
+        "/ o  o \\",
+        "\\______/",
+        "/ |  | \\"
+    };
+
+    stand = new Cell*[4];
+    for (int i = 0; i < 4; i++) {
+        stand[i] = new Cell[8];
+    }
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 8; j++) {
+            stand[i][j].value = standImage[i][j];
+            stand[i][j].color = COLOR_RED;
+        }
+    }
 }

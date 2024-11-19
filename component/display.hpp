@@ -2,17 +2,29 @@
 #include <string>
 #include <ncurses.h>
 #include <unistd.h>
-#include "component.hpp"
 #define ms 1000
 
+typedef struct {
+    char value;
+    int color;
+} Cell;
+
 enum Key { W, A, S, D, J, I, Q };
+
+typedef struct {
+    std::string attackDirection;
+    std::string moveDirection;
+    bool isAttack;
+    bool isQuit;
+} Input;
 
 class Display {
     public:
         int width;
         int height;
-        Cell** display;
+        Cell** screen;
         Display(int _width, int _height);
         void printDisplay();
-        std::string getInput();
+        void initDisplay();
+        Input getInput();
 };

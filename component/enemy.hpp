@@ -8,6 +8,6 @@ class Enemy: public Component {
         int str;
 
         Enemy(int _hp, int _str, int _x, int _y, int _width, int _height, Cell** _image);
-        bool isTouch(int playerX, int playerY);
+        bool isTouch(Player* player);
         void attack(Player* player);
 };

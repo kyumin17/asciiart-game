@@ -1,31 +1,28 @@
 #pragma once
 #include "display.hpp"
+#include <string>
 
-class Image {
-    public:
-        int height;
-        int width;
-        Image(int _width, int _height);
-        void allocateCell(Cell** cell);
-};
-
-class PlayerImage: Image {
+class PlayerImage {
     public:
         Cell** stand;
         Cell** down;
         Cell** jump;
         Cell** attack;
-        Cell** jump_attack;
         PlayerImage();
-        void putValue(Cell** cell, char image[3][4], int color[3]);
 };
 
-class EnemyImage: Image {
+class EnemyImage {
+    public:
+        Cell** stand;
+        EnemyImage();
+};
+
+class ProjectileImage {
     public:
 
 };
 
-class ProjectileImage: Image {
+class BackgroundImage {
     public:
-
+        
 };
