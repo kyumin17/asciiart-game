@@ -67,3 +67,21 @@ EnemyImage::EnemyImage() {
         }
     }
 }
+
+BulletImage::BulletImage() {
+    char bulletShape[1][2] = {
+        "*"
+    };
+
+    bulletShape = new Cell*[1];
+    for (int i = 0; i < 1; i++) {
+        bulletShape[i] = new Cell[2];
+    }
+
+    for (int i = 0; i < 1; i++) {
+        for (int j = 0; j < 2; j++) {
+            bulletShape[i][j].value = bulletShape[0][0];
+            bulletShape[i][j].color = COLOR_YELLOW;
+        }
+    }
+}

@@ -13,8 +13,15 @@ class PlayerImage {
 
 class EnemyImage {
     public:
+
         Cell** stand;
         EnemyImage();
+};
+
+class BulletImage {
+    public:
+        Cell** bulletShape;
+        BulletImage();
 };
 
 class ProjectileImage {
@@ -26,3 +33,4 @@ class BackgroundImage {
     public:
         
 };
+

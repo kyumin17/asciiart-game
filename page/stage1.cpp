@@ -4,6 +4,7 @@ void printStage1Page() {
     Display display(130, 30);
     PlayerImage playerImage;
     EnemyImage enemyImage;
+    BulletImage bulletImage;
     Player player(3, 26, 8, 3, 3, playerImage.stand);
     Enemy enemy(100, 10, 25, 115, 8, 4, enemyImage.stand);
     Input input;
@@ -16,13 +17,15 @@ void printStage1Page() {
         input = display.getInput();
 
         player.move(input, playerImage);
-        player.attack(input.isAttack, playerImage);
+        player.attack(input.isAttack, bulletImage, bulletArr, bulletNum);
         player.draw(&display);
         enemy.attack(&player);
         enemy.draw(&display);
 
-        for (int i = 0; i < bulletNum; i++) bulletArr[i] -> move();
-
+        for (int i = 0; i < bulletNum; i++) {
+            bulletArr[i] -> move();
+            bulletArr[i] -> draw(&display);
+        }
         display.printDisplay();
 
         //print player hp
