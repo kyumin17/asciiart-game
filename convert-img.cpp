@@ -94,24 +94,23 @@ bool Image::readImage() {
 	return true;
 }
 
-void Image::getComponentImage(Component* component, int newHeight, char value) {
+void Image::getComponentImage(Cell** image, int newHeight, char value) {
 	/*
 	newHeight를 높이로 가지는 컴포넌트에 image를 넣음
 	*/
 
 	readImage(); //read image
 	float scale = (float)newHeight / height;
-	component -> height = newHeight;
-	component -> width = width * scale;
+	int newWidth = width * scale;
 
-	component -> image = new Cell*[component -> height];
-	for (int row = 0; row < component -> height; row++) {
-		component -> image[row] = new Cell[component -> width];
+	image = new Cell*[newHeight];
+	for (int row = 0; row < newHeight; row++) {
+		image[row] = new Cell[newWidth];
 	}
 
-	for (int row = 0; row < component -> height; row++) {
-		for (int col = 0; col < component -> width; col++) {
-			component -> image[row][col].value = value;
+	for (int row = 0; row < newHeight; row++) {
+		for (int col = 0; col < newWidth; col++) {
+			image[row][col].value = value;
 		}
 	}
 }

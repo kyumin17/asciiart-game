@@ -1,5 +1,6 @@
 #pragma once
 #include "display.hpp"
+#include "../convert-img.hpp"
 #include <string>
 
 class PlayerImage {
@@ -19,10 +20,11 @@ class EnemyImage {
 
 class ProjectileImage {
     public:
-
+        Cell** blueCircle;
+        ProjectileImage();
 };
 
 class BackgroundImage {
     public:
-        
+        BackgroundImage();
 };

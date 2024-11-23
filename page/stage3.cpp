@@ -10,7 +10,7 @@ void printStage3Page() {
     while (!input.isQuit) {
         display.initDisplay();
         input = display.getInput();
-        player.move(input, playerImage);
+        player.move(input.moveDirection, playerImage);
         player.draw(&display);
         display.printDisplay();
         refresh();

@@ -9,6 +9,8 @@ void Bullet::move() {
     /*
     direction에 따라 x, y값 변경
     */
+
+    y += 2;
 }
 
 bool Bullet::isEnemyTouch(Enemy* enemy) {
@@ -46,6 +48,10 @@ bool Bullet::isOutOfDisplay(Enemy* enemy) {
     x, y값을 받아서 화면에서 나가면 true 반환
     아니면 false 반환
     */
+
+    if (x < 0 || x >= 30 || y < 0 || y >= 130) {
+        return true;
+    }
 
     return false;
 }
