@@ -23,7 +23,7 @@ void Player::attack(bool isAttack, BulletImage bulletImage, Bullet* bulletArr[],
         // 새로운 총알 생성
         int bulletX = x + 2; // 플레이어 중앙에서 총알 발싸
         int bulletY = y + 2;
-    
+    //[3][4]  [1][2]
         bulletArr[bulletNum] = new Bullet( bulletX, bulletY, bulletImage);
         bulletNum++;
     }
