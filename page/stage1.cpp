@@ -5,7 +5,7 @@ void printStage1Page() {
     PlayerImage playerImage;
     EnemyImage enemyImage;
     Player player(3, 25, 8, 5, 4, playerImage.stand);
-    Enemy enemy(100, 10, 25, 115, 8, 4, enemyImage.stand);
+    Enemy enemy(100, 10, 0, 50, enemyImage.width, enemyImage.height, enemyImage.stand);
     Input input;
     input.isQuit = false;
     Bullet* bulletArr[300];

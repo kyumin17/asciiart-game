@@ -94,23 +94,30 @@ bool Image::readImage() {
 	return true;
 }
 
-void Image::getComponentImage(Cell** image, int newHeight, char value) {
+void Image::getComponentImage(Cell**& txtImage, int& newHeight, int& newWidth, char value) {
 	/*
 	newHeight를 높이로 가지는 컴포넌트에 image를 넣음
 	*/
 
 	readImage(); //read image
 	float scale = (float)newHeight / height;
-	int newWidth = width * scale;
+	newWidth = width * scale;
 
-	image = new Cell*[newHeight];
+	txtImage = new Cell*[newHeight];
 	for (int row = 0; row < newHeight; row++) {
-		image[row] = new Cell[newWidth];
+		txtImage[row] = new Cell[newWidth];
 	}
 
 	for (int row = 0; row < newHeight; row++) {
 		for (int col = 0; col < newWidth; col++) {
-			image[row][col].value = value;
+			int img_row = (int)((float)row / scale);
+			int img_col = (int)((float)col / scale);
+			if (image[img_row][img_col].a == 0) {
+				txtImage[row][col].value = ' ';
+			} else {
+				txtImage[row][col].value = value;
+			}
+			txtImage[row][col].color = COLOR_WHITE;
 		}
 	}
 }

@@ -54,27 +54,10 @@ PlayerImage::PlayerImage() {
 }
 
 EnemyImage::EnemyImage() {
-    char standImage[4][9] = {
-        " ______ ",
-        "/ o  o \\",
-        "\\______/",
-        "( (  ( ("
-    };
-
-    stand = new Cell*[4];
-    for (int i = 0; i < 4; i++) {
-        stand[i] = new Cell[8];
-    }
-
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 8; j++) {
-            stand[i][j].value = standImage[i][j];
-            stand[i][j].color = COLOR_RED;
-        }
-    }
-
-    Image image("../image");
-    image.getComponentImage(stand, 50, '.');
+    Image image("./image/stage2/carrot_01.png");
+    height = 25;
+    width = 0;
+    image.getComponentImage(stand, height, width, '.');
 }
 
 ProjectileImage::ProjectileImage() {

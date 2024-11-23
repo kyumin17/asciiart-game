@@ -15,6 +15,8 @@ class PlayerImage {
 class EnemyImage {
     public:
         Cell** stand;
+        int width;
+        int height;
         EnemyImage();
 };
 

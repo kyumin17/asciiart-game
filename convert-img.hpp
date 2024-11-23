@@ -16,5 +16,5 @@ class Image {
 		Pixel** image;
 		Image(const char* _filename);
 		bool readImage();
-		void getComponentImage(Cell** image, int newHeight, char value);
+		void getComponentImage(Cell**& txtImage, int& newHeight, int& newWidth, char value);
 };

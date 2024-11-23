@@ -12,6 +12,7 @@ void Player::move(std::string moveDirection, PlayerImage playerImage) {
     /*
     입력값에 따라 플레이어 이동
     */
+    int jumpVelocity[9] = {-2, -2, -2, -1, 1, 1, 1, 2, 2};
 
     if (state[DOWN]) {
         stateDuration[DOWN]--;
@@ -23,6 +24,18 @@ void Player::move(std::string moveDirection, PlayerImage playerImage) {
 
     if (state[JUMP]) {
         stateDuration[JUMP]--;
+        if (stateDuration[JUMP] % 3 == 0) {
+            x -= jumpVelocity[stateDuration[JUMP]/3];
+
+            if (state[RIGHT]) {
+                y++;
+                stateDuration[RIGHT] = 10;
+            } else if (state[LEFT]) {
+                y--;
+                stateDuration[LEFT] = 10;
+            }
+        }
+
         if (stateDuration[JUMP] == 0) {
             state[JUMP] = false;
             changeImage(playerImage.stand);
@@ -44,17 +57,13 @@ void Player::move(std::string moveDirection, PlayerImage playerImage) {
     }
     
     if (moveDirection[1] == 'a') {
-        if (state[LEFT]) {
-            return;
-        }
-        y -= 2;
+        y--;
+        if (state[LEFT]) return;
         state[LEFT] = true;
         stateDuration[LEFT] = 20;
     } else if (moveDirection[1] == 'd') {
-        if (state[RIGHT]) {
-            return;
-        }
-        y += 2;
+        y++;
+        if (state[RIGHT]) return;
         state[RIGHT] = true;
         stateDuration[RIGHT] = 20;
     }
@@ -68,12 +77,9 @@ void Player::move(std::string moveDirection, PlayerImage playerImage) {
         stateDuration[DOWN] = 70;
         changeImage(playerImage.down);
     } else if (moveDirection[0] == 'j') {
-        if (state[JUMP]) {
-            stateDuration[JUMP] = 5;
-            return;
-        }
+        if (state[JUMP]) return;
         state[JUMP] = true;
-        stateDuration[JUMP] = 70;
+        stateDuration[JUMP] = 27;
         changeImage(playerImage.jump);
     }
 }
