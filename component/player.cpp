@@ -25,13 +25,13 @@ void Player::move(std::string moveDirection, PlayerImage playerImage) {
     if (state[JUMP]) {
         stateDuration[JUMP]--;
         if (stateDuration[JUMP] % 3 == 0) {
-            x -= jumpVelocity[stateDuration[JUMP]/3];
+            y += jumpVelocity[stateDuration[JUMP]/3];
 
             if (state[RIGHT]) {
-                y++;
+                x++;
                 stateDuration[RIGHT] = 10;
             } else if (state[LEFT]) {
-                y--;
+                x--;
                 stateDuration[LEFT] = 10;
             }
         }
@@ -57,12 +57,12 @@ void Player::move(std::string moveDirection, PlayerImage playerImage) {
     }
     
     if (moveDirection[1] == 'a') {
-        y--;
+        x--;
         if (state[LEFT]) return;
         state[LEFT] = true;
         stateDuration[LEFT] = 20;
     } else if (moveDirection[1] == 'd') {
-        y++;
+        x++;
         if (state[RIGHT]) return;
         state[RIGHT] = true;
         stateDuration[RIGHT] = 20;
@@ -82,9 +82,10 @@ void Player::move(std::string moveDirection, PlayerImage playerImage) {
         stateDuration[JUMP] = 27;
         changeImage(playerImage.jump);
     }
+
 }
 
-void Player::attack(bool isAttack, std::string attackDirection, PlayerImage playerImage) {
+void Player::attack(bool isAttack, Bullet*(&bulletArr)[300], int& bulletNum, std::string attackDirection, PlayerImage playerImage, Cell** image) {
     if (state[ATTACK]) {
         stateDuration[ATTACK]--;
         if (stateDuration[ATTACK] == 0) {
@@ -95,11 +96,18 @@ void Player::attack(bool isAttack, std::string attackDirection, PlayerImage play
 
     if (isAttack) {
         if (state[ATTACK]) {
-            stateDuration[ATTACK] = 5;
+            stateDuration[ATTACK] = 4;
             return;
         }
         state[ATTACK] = true;
-        stateDuration[ATTACK] = 70;
+        stateDuration[ATTACK] = 60;
         changeImage(playerImage.attack);
+    }
+
+    if (state[ATTACK]) {
+        if (stateDuration[ATTACK] % 4 == 0) 
+        {
+            //bulletArr[bulletNum++] = new Bullet(x + 5, y + 1, attackDirection, width, height, image);
+        }
     }
 }

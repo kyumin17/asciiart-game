@@ -27,10 +27,13 @@ void Component::changeImage(Cell** new_image) {
 }
 
 void Component::draw(Display* display) {
+    int r = display -> height - y - height;
+    int c = x;
     for (int row = 0; row < height; row++) {
         for (int col = 0; col < width; col++) {
-            display -> screen[row + x][col + y].value = image[row][col].value;
-            display -> screen[row + x][col + y].color = image[row][col].color;
+            if (image[row][col].value == ' ') continue;
+            display -> screen[row + r][col + c].value = image[row][col].value;
+            display -> screen[row + r][col + c].color = image[row][col].color;
         }
     }
 }

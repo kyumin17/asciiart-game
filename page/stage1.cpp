@@ -1,47 +1,35 @@
 #include "page.hpp"
+#define MAXBULLET 300
 
 void printStage1Page() {
     Display display(130, 30);
     PlayerImage playerImage;
-    EnemyImage enemyImage;
-    Player player(3, 25, 8, 5, 4, playerImage.stand);
-    Enemy enemy(100, 10, 0, 50, enemyImage.width, enemyImage.height, enemyImage.stand);
+    EnemyStage1Image enemyImage;
+    BulletImage bulletImage;
+    Player player(3, 3, 1, 5, 4, playerImage.stand);
+    Enemy enemy(100, 1, 70, 0, enemyImage.width, enemyImage.height, enemyImage.stand);
     Input input;
     input.isQuit = false;
-    Bullet* bulletArr[300];
+    Bullet* bulletArr[MAXBULLET];
     int bulletNum = 0;
+    bulletArr[bulletNum++] = new Bullet(player.x + 5, player.y + 1, "ww", 1, 1, bulletImage.bullet);
     
     while (!input.isQuit && player.hp != 0 && enemy.hp != 0) {
         display.initDisplay();
         input = display.getInput();
 
         player.move(input.moveDirection, playerImage);
-        player.attack(input.isAttack, input.attackDirection, playerImage);
-        player.draw(&display);
         enemy.attack(&player);
         enemy.draw(&display);
+        player.attack(input.isAttack, bulletArr, bulletNum, input.attackDirection, playerImage, bulletImage.bullet);
+        player.draw(&display);
 
         for (int i = 0; i < bulletNum; i++) {
-            bulletArr[i] -> move();
             bulletArr[i] -> draw(&display);
         }
 
         display.printDisplay();
-
-        //print player hp
-        printw("\n\n  HP: ");
-        for (int i = 0; i < player.hp; i++) {
-            addch(ACS_CKBOARD);
-            printw(" ");
-        }
-
-        //print enemy hp
-        move(1, 61);
-        printw("BOSSNAME");
-        move(3, 15);
-        for (int i = 0; i < enemy.hp; i++) {
-            addch(ACS_CKBOARD);
-        }
+        display.printBackground(player.hp, enemy.hp);
 
         refresh();
     }
@@ -50,7 +38,7 @@ void printStage1Page() {
         char key;
         while (key != '\n') {
             key = getch();
-            mvprintw(15, 44, "An enemy has had a feast after a long time.");
+            mvprintw(15, 44, "You are dead");
             mvprintw(17, 63, "Retry?");
             usleep(10 * ms);
         }
@@ -60,7 +48,7 @@ void printStage1Page() {
         char key;
         while (key != '\n') {
             key = getch();
-            mvprintw(17, 55, "You are alive");
+            mvprintw(17, 55, "clear");
             usleep(10 * ms);
         }
     }

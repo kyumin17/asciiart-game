@@ -94,6 +94,23 @@ bool Image::readImage() {
 	return true;
 }
 
+int Image::getColor(int r, int g, int b) {
+	int colorValue[11][3] = {{0, 0, 0}, {255, 0, 0}, {0, 255, 0}, {255, 255, 0}, {0, 0, 255}, {255, 0, 255}, {0, 255, 255}, 
+	{255, 255, 255}, {0, 0, 0}, {255, 166, 0}, {255, 85, 0}};
+	int minDiff = 255 * 255 * 3;
+	int minDiffColor = -1;
+
+	for (int i = 1; i < 11; i++) {
+		int diff = pow(r - colorValue[i][0], 2) + pow(g - colorValue[i][1], 2) + pow(b - colorValue[i][2], 2);
+		if (diff < minDiff) {
+			minDiff = diff;
+			minDiffColor = i;
+		}
+	}
+
+	return minDiffColor;
+}
+
 void Image::getComponentImage(Cell**& txtImage, int& newHeight, int& newWidth, char value) {
 	/*
 	newHeight를 높이로 가지는 컴포넌트에 image를 넣음
@@ -101,7 +118,7 @@ void Image::getComponentImage(Cell**& txtImage, int& newHeight, int& newWidth, c
 
 	readImage(); //read image
 	float scale = (float)newHeight / height;
-	newWidth = width * scale;
+	newWidth = width * scale * 2;
 
 	txtImage = new Cell*[newHeight];
 	for (int row = 0; row < newHeight; row++) {
@@ -111,13 +128,13 @@ void Image::getComponentImage(Cell**& txtImage, int& newHeight, int& newWidth, c
 	for (int row = 0; row < newHeight; row++) {
 		for (int col = 0; col < newWidth; col++) {
 			int img_row = (int)((float)row / scale);
-			int img_col = (int)((float)col / scale);
+			int img_col = (int)((float)col / (scale * 2));
 			if (image[img_row][img_col].a == 0) {
 				txtImage[row][col].value = ' ';
 			} else {
 				txtImage[row][col].value = value;
 			}
-			txtImage[row][col].color = COLOR_WHITE;
+			txtImage[row][col].color = getColor(image[img_row][img_col].r, image[img_row][img_col].g, image[img_row][img_col].b);
 		}
 	}
 }

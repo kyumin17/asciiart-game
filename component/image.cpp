@@ -53,11 +53,25 @@ PlayerImage::PlayerImage() {
     }
 }
 
-EnemyImage::EnemyImage() {
-    Image image("./image/stage2/carrot_01.png");
-    height = 25;
+EnemyStage1Image::EnemyStage1Image() {
+    Image image("./image/stage1/ghost_01.png");
+    height = 30;
     width = 0;
-    image.getComponentImage(stand, height, width, '.');
+    image.getComponentImage(stand, height, width, '@');
+}
+
+EnemyStage2Image::EnemyStage2Image() {
+    Image image("./image/stage2/carrot_01.png");
+    height = 30;
+    width = 0;
+    image.getComponentImage(stand, height, width, '@');
+}
+
+EnemyStage3Image::EnemyStage3Image() {
+    Image image("./image/stage3/Sun_01.png");
+    height = 30;
+    width = 0;
+    image.getComponentImage(stand, height, width, '@');
 }
 
 ProjectileImage::ProjectileImage() {
@@ -66,4 +80,13 @@ ProjectileImage::ProjectileImage() {
 
     blueCircle[0][0].value = 'o';
     blueCircle[0][0].color = COLOR_BLUE;
+}
+
+
+BulletImage::BulletImage() {
+    bullet = new Cell*[1];
+    bullet[0] = new Cell[1];
+
+    bullet[0][0].value = '*';
+    bullet[0][0].color = COLOR_YELLOW;
 }

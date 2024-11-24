@@ -11,6 +11,9 @@ int main(int argc, char *argv[]) {
 	curs_set(0);
 	cbreak();
 	start_color();
+	init_color(8, 0, 0, 0); //black
+	init_color(9, 1000, 651, 0); //orange
+	init_color(10, 1000, 333, 0); //redorange
 
 	/* game */
 	int stage = 0;

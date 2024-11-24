@@ -12,21 +12,38 @@ class PlayerImage {
         PlayerImage();
 };
 
-class EnemyImage {
+class EnemyStage1Image {
     public:
         Cell** stand;
         int width;
         int height;
-        EnemyImage();
+        EnemyStage1Image();
+};
+
+class EnemyStage2Image {
+    public:
+        Cell** stand;
+        int width;
+        int height;
+        EnemyStage2Image();
+};
+
+class EnemyStage3Image {
+    public:
+        Cell** stand;
+        int width;
+        int height;
+        EnemyStage3Image();
+};
+
+class BulletImage {
+    public:
+        Cell** bullet;
+        BulletImage();
 };
 
 class ProjectileImage {
     public:
         Cell** blueCircle;
         ProjectileImage();
-};
-
-class BackgroundImage {
-    public:
-        BackgroundImage();
 };

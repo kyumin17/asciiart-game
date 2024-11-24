@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "player.hpp"
-#include "display.hpp"
+#include "component.hpp"
 
 class Projectile: public Component {
     public:

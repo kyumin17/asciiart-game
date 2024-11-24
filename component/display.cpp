@@ -32,7 +32,7 @@ void Display::printDisplay() {
 
     move(29, 0);
     for (int col = 0; col < width; col++) {
-        printw("%c", '=');
+        printw("%c", '='); //ground
     }
 }
 
@@ -42,6 +42,27 @@ void Display::initDisplay() {
             screen[row][col].value = ' ';
             screen[row][col].color = COLOR_WHITE;
         }
+    }
+}
+
+void Display::printBackground(int playerHp, int enemyHp) {
+    /*
+    hp바 출력
+    */
+
+    //print player hp
+    printw("\n\n  HP: ");
+    for (int i = 0; i < playerHp; i++) {
+        addch(ACS_CKBOARD);
+        printw(" ");
+    }
+
+    //print enemy hp
+    move(1, 61);
+    printw("BOSSNAME");
+    move(3, 15);
+    for (int i = 0; i < enemyHp; i++) {
+        addch(ACS_CKBOARD);
     }
 }
 
