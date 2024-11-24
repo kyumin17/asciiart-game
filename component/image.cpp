@@ -54,7 +54,7 @@ PlayerImage::PlayerImage() {
 }
 
 EnemyStage1Image::EnemyStage1Image() {
-    Image image("./image/stage1/ghost_01.png");
+    Image image("./image/stage1/ghost_08.png");
     height = 30;
     width = 0;
     image.getComponentImage(stand, height, width, '@');
@@ -68,7 +68,7 @@ EnemyStage2Image::EnemyStage2Image() {
 }
 
 EnemyStage3Image::EnemyStage3Image() {
-    Image image("./image/stage3/Sun_01.png");
+    Image image("./image/stage3/sun_01.png");
     height = 30;
     width = 0;
     image.getComponentImage(stand, height, width, '@');
