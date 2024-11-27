@@ -14,7 +14,7 @@ class PlayerImage {
 
 class EnemyStage1Image {
     public:
-        Cell** stand;
+        Cell** ghostList[12];
         int width;
         int height;
         EnemyStage1Image();
@@ -30,7 +30,7 @@ class EnemyStage2Image {
 
 class EnemyStage3Image {
     public:
-        Cell** stand;
+        Cell** sunList[6];
         int width;
         int height;
         EnemyStage3Image();

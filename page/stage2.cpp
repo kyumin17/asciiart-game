@@ -7,7 +7,7 @@ void printStage2Page() {
     EnemyStage2Image enemyImage;
     BulletImage bulletImage;
     Player player(3, 3, 1, 5, 4, playerImage.stand);
-    Enemy enemy(100, 1, 35, 0, enemyImage.width, enemyImage.height, enemyImage.stand);
+    Enemy enemy(100, 1, 35, 0, enemyImage.width, enemyImage.height, 10, enemyImage.stand);
     Input input;
     input.isQuit = false;
     Bullet* bulletArr[MAXBULLET];
@@ -24,7 +24,7 @@ void printStage2Page() {
         player.draw(&display);
 
         display.printDisplay();
-        display.printBackground(player.hp, enemy.hp);
+        display.printBackground(player.hp, enemy.hp, "CARROT");
 
         refresh();
     }

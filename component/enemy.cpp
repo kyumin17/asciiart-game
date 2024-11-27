@@ -1,9 +1,11 @@
 #include "enemy.hpp"
 
-Enemy::Enemy(int _hp, int _str, int _x, int _y, int _width, int _height, Cell** _image)
+Enemy::Enemy(int _hp, int _str, int _x, int _y, int _width, int _height, int _frame, Cell** _image)
 : Component(_x, _y, _width, _height, _image) {
     hp = _hp;
     str = _str;
+    moveDuration = 0;
+    frame = _frame;
 }
 
 bool Enemy::isTouch(Player* player) {
@@ -22,4 +24,15 @@ void Enemy::attack(Player* player) {
     if (isTouch(player)) {
         player -> hp -= str;
     }
+}
+
+void Enemy::moveStage1(EnemyStage1Image enemyImage) {
+    if (moveDuration < frame * 11) moveDuration++;
+    image = enemyImage.ghostList[moveDuration / frame];
+}
+
+void Enemy::moveStage3(EnemyStage3Image enemyImage) {
+    moveDuration++;
+    if (moveDuration >= frame * 6) moveDuration = 0;
+    image = enemyImage.sunList[moveDuration / frame];
 }

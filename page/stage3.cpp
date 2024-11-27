@@ -7,7 +7,7 @@ void printStage3Page() {
     EnemyStage3Image enemyImage;
     BulletImage bulletImage;
     Player player(3, 3, 1, 5, 4, playerImage.stand);
-    Enemy enemy(100, 1, 70, 0, enemyImage.width, enemyImage.height, enemyImage.stand);
+    Enemy enemy(100, 1, 70, 0, enemyImage.width, enemyImage.height, 20, enemyImage.sunList[0]);
     Input input;
     input.isQuit = false;
     Bullet* bulletArr[MAXBULLET];
@@ -19,6 +19,7 @@ void printStage3Page() {
         input = display.getInput();
 
         player.move(input.moveDirection, playerImage);
+        enemy.moveStage3(enemyImage);
         enemy.attack(&player);
         enemy.draw(&display);
         player.attack(input.isAttack, bulletArr, bulletNum, input.attackDirection, playerImage, bulletImage.bullet);
@@ -29,7 +30,7 @@ void printStage3Page() {
         }
 
         display.printDisplay();
-        display.printBackground(player.hp, enemy.hp);
+        display.printBackground(player.hp, enemy.hp, "SUN");
 
         refresh();
     }

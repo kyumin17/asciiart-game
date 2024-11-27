@@ -45,7 +45,7 @@ void Display::initDisplay() {
     }
 }
 
-void Display::printBackground(int playerHp, int enemyHp) {
+void Display::printBackground(int playerHp, int enemyHp, const char* bossName) {
     /*
     hp바 출력
     */
@@ -59,7 +59,7 @@ void Display::printBackground(int playerHp, int enemyHp) {
 
     //print enemy hp
     move(1, 61);
-    printw("BOSSNAME");
+    printw(bossName);
     move(3, 15);
     for (int i = 0; i < enemyHp; i++) {
         addch(ACS_CKBOARD);

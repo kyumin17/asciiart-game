@@ -26,6 +26,6 @@ class Display {
         Display(int _width, int _height);
         void printDisplay();
         void initDisplay();
-        void printBackground(int playerHp, int enemyHp);
+        void printBackground(int playerHp, int enemyHp, const char* bossName);
         Input getInput();
 };
